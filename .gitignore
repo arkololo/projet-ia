@@ -1,0 +1,53 @@
+# Environnements Python locaux (uv / venv)
+.venv/
+venv/
+env/
+.python-version.local
+
+# Bytecode et caches Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.cache/
+.coverage
+.coverage.*
+htmlcov/
+
+# Construction et distribution
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# Jupyter : conserver les notebooks, ignorer leurs sauvegardes automatiques
+.ipynb_checkpoints/
+.jupyter/
+
+# Configuration locale et secrets
+.env
+.env.*
+!.env.example
+!.env.template
+team.cfg
+
+# Journaux et fichiers temporaires
+*.log
+!/audit/evidence/**/*.log
+*.tmp
+*.temp
+*.bak
+*.swp
+*.swo
+~$*
+
+# Métadonnées locales des éditeurs et du système
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# uv.lock est volontairement versionné pour reproduire l'environnement.
+# Attention : ces règles ne retirent pas les fichiers déjà suivis par Git.
