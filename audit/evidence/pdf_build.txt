@@ -1,11 +1,11 @@
 HTML : C:\Users\aouch\Documents\iaprojet\helpdesk_kit_team_02\audit\rapport_audit_helpdesk_team_02.html
 Chrome : C:\Program Files\Google\Chrome\Application\chrome.exe
 PDF  : C:\Users\aouch\Documents\iaprojet\helpdesk_kit_team_02\audit\rapport_audit_helpdesk_team_02.pdf
-Pages: 15 — Taille: 483.5 Ko
+Pages: 15 — Taille: 483.2 Ko
 Pages des sections : {'1. Résumé exécutif': 3, '2. Périmètre et méthode': 4, '3. Synthèse des findings': 5, '4. Fiches détaillées': 6, '5. Résultats négatifs': 14, '6. Conclusion et recommandations prioritaires': 15}
 Chrome : C:\Program Files\Google\Chrome\Application\chrome.exe
 Pied de page et pagination ajoutés.
-PDF final : 15 pages — 490.7 Ko
+PDF final : 15 pages — 490.5 Ko
 Jetons trouvés dans le PDF : 8
   - CPE{0aad372a5c29}
   - CPE{20ce2d28215a}

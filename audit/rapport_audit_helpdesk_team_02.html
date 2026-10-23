@@ -291,11 +291,10 @@ connaissances, réinitialisation de mots de passe, courriel et traduction.</p>
 <p>L'audit a confirmé <strong>8 vulnérabilités exploitables</strong>, dont <strong>3 critiques</strong>, <strong>4 élevées</strong>
 et <strong>1 moyenne</strong>. Toutes ont été prouvées par un jeton <code>CPE{…}</code> obtenu par le chemin
 d'attaque applicatif, conformément aux Règles d'engagement.</p>
-<p>Le risque global est <strong>critique</strong> : un employé standard, sans privilège particulier,
-peut aujourd'hui :</p>
+<p>Le risque global est <strong>critique</strong> : l'application exécute du code dès le chargement
+d'un artefact de classification tiers compromis (F-01), et un employé standard, sans
+privilège particulier, peut aujourd'hui :</p>
 <ul>
-<li>provoquer l'<strong>exécution de code</strong> sur la machine qui héberge l'agent, dès le
-  chargement d'un artefact de classification fourni par un tiers (F-01) ;</li>
 <li><strong>réinitialiser le mot de passe du compte <code>ceo</code> ou <code>admin</code></strong> et obtenir le nouveau
   secret directement dans la réponse (F-02) ;</li>
 <li>exploiter une <strong>injection SQL</strong> dans la recherche de tickets pour lire toute la base
@@ -431,7 +430,7 @@ indiqué dans chaque fiche.</p>
 <td>F-07</td>
 <td>Exfiltration par image distante dans le rendu du portail</td>
 <td>LLM05 — Improper Output Handling / LLM02</td>
-<td>AML.T0077, AML.T0086</td>
+<td>AML.T0077, AML.T0086, AML.T0057</td>
 <td><strong>Élevée</strong></td>
 <td><code>CPE{a635d3977ae5}</code></td>
 <td>Application</td>
@@ -471,10 +470,10 @@ classiques (SQLi, autorisation manquante), ce qui est précisé dans les fiches.
 <code>models/ticket_classifier.pkl</code>, chargé au démarrage de l'agent. La désérialisation
 d'un Pickle permet d'exécuter du code arbitraire. Dans le kit, le chargement écrit un
 fichier marqueur <code>loadtime_marker.txt</code> contenant <code>pwned-at-load CPE{…}</code> : la
-compromission est donc <strong>dans l'artefact livré</strong>, pas seulement théorique. Un
-attaquant qui contrôle la chaîne d'approvisionnement du modèle, ou qui peut remplacer
-l'artefact dans le répertoire de travail temporaire, obtient l'exécution de code à
-chaque démarrage de l'agent.</p>
+compromission est donc <strong>dans l'artefactlivré</strong>, pas seulement théorique. Un attaquant qui contrôle la chaîne
+d'approvisionnement du modèle obtient l'exécution de code à chaque démarrage de
+l'agent ; le répertoire de travail étant inscriptible, un remplacement local de
+l'artefact est un risque supplémentaire (non testé).</p>
 <p><strong>Étapes de reproduction.</strong></p>
 <ol>
 <li>Démarrer Ollama, puis lancer l'agent : le kit extrait son artefact dans
@@ -498,6 +497,8 @@ print(open(os.path.join(workdir, &quot;loadtime_marker.txt&quot;), encoding=&quo
 sha256sum audit/evidence/ticket_classifier.pkl
 # c547512e7c9f676d0fe47cb2fb323ed9f038e1e4d2e2aefc363a314aaf0aa5eb
 </code></pre>
+<p>Le scan statique seul ne qualifie pas l'artefact ; c'est le chargement dynamique qui
+écrit le marqueur et prouve l'exécution.</p>
 <p><strong>Preuve (jeton).</strong> <code>CPE{2367079bdc4a}</code> — dans
 <code>%TEMP%\helpdesk_&lt;aléatoire&gt;\loadtime_marker.txt</code>, écrit au chargement de l'agent.
 Copie de l'artefact : <code>audit/evidence/ticket_classifier.pkl</code>.</p>
@@ -752,7 +753,7 @@ voie indirecte a fonctionné au premier essai.</p>
 <li><strong>Catégorie OWASP LLM 2025 :</strong> LLM05 — Improper Output Handling / LLM02 —
   Sensitive Information Disclosure</li>
 <li><strong>Technique(s) MITRE ATLAS :</strong> AML.T0077 — LLM Response Rendering ; AML.T0086 —
-  Exfiltration via AI Agent Tool Invocation</li>
+  Exfiltration via AI Agent Tool Invocation ; AML.T0057 — LLM Data Leakage</li>
 <li><strong>Sévérité :</strong> <strong>Élevée</strong>. Impact : exfiltration silencieuse de données (adresse IP,
   horodatage, paramètres encodés dans l'URL) dès l'affichage de la réponse, sans clic.
   Exploitabilité : un contenu Markdown contrôlé par l'attaquant, rendu par le portail.</li>

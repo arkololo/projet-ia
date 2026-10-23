@@ -21,11 +21,10 @@ L'audit a confirmé **8 vulnérabilités exploitables**, dont **3 critiques**, *
 et **1 moyenne**. Toutes ont été prouvées par un jeton `CPE{…}` obtenu par le chemin
 d'attaque applicatif, conformément aux Règles d'engagement.
 
-Le risque global est **critique** : un employé standard, sans privilège particulier,
-peut aujourd'hui :
+Le risque global est **critique** : l'application exécute du code dès le chargement
+d'un artefact de classification tiers compromis (F-01), et un employé standard, sans
+privilège particulier, peut aujourd'hui :
 
-- provoquer l'**exécution de code** sur la machine qui héberge l'agent, dès le
-  chargement d'un artefact de classification fourni par un tiers (F-01) ;
 - **réinitialiser le mot de passe du compte `ceo` ou `admin`** et obtenir le nouveau
   secret directement dans la réponse (F-02) ;
 - exploiter une **injection SQL** dans la recherche de tickets pour lire toute la base
@@ -106,7 +105,7 @@ indiqué dans chaque fiche.
 | F-04 | Divulgation de données RH sensibles via l'annuaire | LLM02 — Sensitive Information Disclosure | AML.T0057 | **Élevée** | `CPE{931a47f29771}` | Application |
 | F-05 | Accès employé à un article de KB confidentiel | LLM02 / LLM08 — Vector & Embedding Weaknesses | AML.T0057 | **Élevée** | `CPE{20ce2d28215a}` | Application (RAG) |
 | F-06 | Exfiltration par courriel, y compris par injection indirecte | LLM01 — Prompt Injection / LLM06 | AML.T0051.001, AML.T0086 | **Élevée** | `CPE{36899ee10e84}` | Application + modèle (suivi d'instruction) |
-| F-07 | Exfiltration par image distante dans le rendu du portail | LLM05 — Improper Output Handling / LLM02 | AML.T0077, AML.T0086 | **Élevée** | `CPE{a635d3977ae5}` | Application |
+| F-07 | Exfiltration par image distante dans le rendu du portail | LLM05 — Improper Output Handling / LLM02 | AML.T0077, AML.T0086, AML.T0057 | **Élevée** | `CPE{a635d3977ae5}` | Application |
 | F-08 | Publication en base de connaissances sans revue | LLM04 — Data and Model Poisoning / LLM08 | AML.T0020, AML.T0018.000 | **Moyenne** | `CPE{742432e989c1}` | Application |
 
 *Classement par sévérité décroissante. Seuls les findings confirmés par un jeton y
@@ -136,10 +135,10 @@ classiques (SQLi, autorisation manquante), ce qui est précisé dans les fiches.
 `models/ticket_classifier.pkl`, chargé au démarrage de l'agent. La désérialisation
 d'un Pickle permet d'exécuter du code arbitraire. Dans le kit, le chargement écrit un
 fichier marqueur `loadtime_marker.txt` contenant `pwned-at-load CPE{…}` : la
-compromission est donc **dans l'artefact livré**, pas seulement théorique. Un
-attaquant qui contrôle la chaîne d'approvisionnement du modèle, ou qui peut remplacer
-l'artefact dans le répertoire de travail temporaire, obtient l'exécution de code à
-chaque démarrage de l'agent.
+compromission est donc **dans l'artefactlivré**, pas seulement théorique. Un attaquant qui contrôle la chaîne
+d'approvisionnement du modèle obtient l'exécution de code à chaque démarrage de
+l'agent ; le répertoire de travail étant inscriptible, un remplacement local de
+l'artefact est un risque supplémentaire (non testé).
 
 **Étapes de reproduction.**
 
@@ -166,6 +165,9 @@ uv run picklescan -p audit/evidence/ticket_classifier.pkl
 sha256sum audit/evidence/ticket_classifier.pkl
 # c547512e7c9f676d0fe47cb2fb323ed9f038e1e4d2e2aefc363a314aaf0aa5eb
 ```
+
+Le scan statique seul ne qualifie pas l'artefact ; c'est le chargement dynamique qui
+écrit le marqueur et prouve l'exécution.
 
 **Preuve (jeton).** `CPE{2367079bdc4a}` — dans
 `%TEMP%\helpdesk_<aléatoire>\loadtime_marker.txt`, écrit au chargement de l'agent.
@@ -464,7 +466,7 @@ voie indirecte a fonctionné au premier essai.
 - **Catégorie OWASP LLM 2025 :** LLM05 — Improper Output Handling / LLM02 —
   Sensitive Information Disclosure
 - **Technique(s) MITRE ATLAS :** AML.T0077 — LLM Response Rendering ; AML.T0086 —
-  Exfiltration via AI Agent Tool Invocation
+  Exfiltration via AI Agent Tool Invocation ; AML.T0057 — LLM Data Leakage
 - **Sévérité :** **Élevée**. Impact : exfiltration silencieuse de données (adresse IP,
   horodatage, paramètres encodés dans l'URL) dès l'affichage de la réponse, sans clic.
   Exploitabilité : un contenu Markdown contrôlé par l'attaquant, rendu par le portail.
